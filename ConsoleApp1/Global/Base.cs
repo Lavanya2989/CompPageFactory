@@ -12,6 +12,7 @@ using OpenQA.Selenium.Firefox;
 
 using System;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading;
 using static ConsoleApp1.Global.GlobalDefinitions;
 
@@ -38,14 +39,16 @@ namespace ConsoleApp1.Global
 
              public void Setup()
             {
+
+            #region Initialise Reports
            
-                #region Initialise Reports
-                
                     extent = new ExtentReports();
-                    var htmlReporter = new ExtentHtmlReporter(ReportPath);
+                    ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(ReportPath);
+                    //htmlReporter.setAppendExisting(true);  
                     extent.AttachReporter(htmlReporter);
                     // report design
                     htmlReporter.LoadConfig(ReportXMLPath);
+                   
                     //Adding system details
                     extent.AddSystemInfo("Host Name", "Local host");
                     extent.AddSystemInfo("Environment", "QA");
@@ -113,11 +116,12 @@ namespace ConsoleApp1.Global
                     String screenShotPath1 = Capture(driver, ReportPath);
                     test.Log(Status.Pass, "Pass");
                     test.Log(Status.Pass, "Snapshot below: " + test.AddScreenCaptureFromPath(ReportScreenShot));
-                    MediaEntityBuilder.CreateScreenCaptureFromPath(ReportPath);
+                    //MediaEntityBuilder.CreateScreenCaptureFromPath(ReportPath) ;
                     break;
             }
-
+            
             test.Log(logstatus, "Test ended with " + logstatus + stacktrace);
+            string img = SaveScreenShotClass.SaveScreenshot(GlobalDefinitions.driver, "Report");
             driver.Quit();
         }
 
@@ -129,9 +133,14 @@ namespace ConsoleApp1.Global
         {
             ITakesScreenshot ts = (ITakesScreenshot)driver;
             Screenshot screenshot = ts.GetScreenshot();
+           // var file = new StringBuilder(ReportScreenShot);
+            //file.Append(ReportScreenShot);
+            //file.Append(DateTime.Now.ToString("_dd-mm-yyyy_mss"));
+            //file.Append(".png");
             //Screenshot saving location
             screenshot.SaveAsFile(ReportScreenShot, ScreenshotImageFormat.Png);
-            return ReportPath;
+           // return file.ToString();
+           return ReportPath;
         }
 
               #endregion
