@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1.Global;
+using AutoItX3Lib;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace ConsoleApp1.Pages
 {
@@ -75,6 +77,10 @@ namespace ConsoleApp1.Pages
         //Enter Skill Exchange
         [FindsBy(How = How.XPath, Using = "(//input[@placeholder='Add new tag'])[2]")]
         private IWebElement SkillExchange { get; set; }
+
+        //Click on worksample
+        [FindsBy(How = How.XPath, Using = "//i[@class='huge plus circle icon padding-25']")]
+        private IWebElement Worksample { get; set; }
 
         //Click on Active/Hidden option
         [FindsBy(How = How.XPath, Using = "//input[@name='isActive' and @value='false']")]
@@ -158,9 +164,21 @@ namespace ConsoleApp1.Pages
             SkillExchange.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Skill-Exchange"));
             SkillExchange.SendKeys(Keys.Return);
 
+            //Click worksample
+            Worksample.Click();
+            //Worksample.SendKeys("path");
+
+            //upload file using AutoIT
+            AutoItX3 autoit = new AutoItX3();
+            //Activate so that next action happens on this window
+            autoit.WinActivate("Open");
+           //autoit.Send(@"D:\Shareskillmars\FileUploadScript.exe");
+            autoit.Send(@"D:\Shareskillmars\sample.txt");
+            autoit.Send("{ENTER}");
+             
             //Click on Active/Hidden option
             ActiveOption.Click();
-
+            Thread.Sleep(10000);
             //click save
             Save.Click();
         }

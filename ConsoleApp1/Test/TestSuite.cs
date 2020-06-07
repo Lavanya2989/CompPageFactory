@@ -5,7 +5,7 @@ namespace ConsoleApp1
 {
     public class Program
     {
-      
+
         [TestFixture]
         [Category("ShareSkillPage")]
         class ShareSkillPage : Global.Base
@@ -37,7 +37,18 @@ namespace ConsoleApp1
                 manobj.Listings();
                 manobj.deleteAssert();
             }
-        }
 
+            [Test, Description("Validate the user can edit the servicelisting")]
+            public void ManageListingsEdit()
+            {
+                //Navigate to Managelisting page from profile page
+                ProfilePage profobj = new ProfilePage();
+                profobj.Navigate_Manage_Listing();
+
+                //Edit ServiceListing
+                ManageListings manobj = new ManageListings();
+                manobj.ShareskillEdit();
+            }
+        }
     }
 }

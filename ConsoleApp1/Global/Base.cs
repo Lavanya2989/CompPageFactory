@@ -45,6 +45,7 @@ namespace ConsoleApp1.Global
                     extent = new ExtentReports();
                     ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(ReportPath);
                     //htmlReporter.setAppendExisting(true);  
+
                     extent.AttachReporter(htmlReporter);
                     // report design
                     htmlReporter.LoadConfig(ReportXMLPath);
@@ -133,14 +134,9 @@ namespace ConsoleApp1.Global
         {
             ITakesScreenshot ts = (ITakesScreenshot)driver;
             Screenshot screenshot = ts.GetScreenshot();
-           // var file = new StringBuilder(ReportScreenShot);
-            //file.Append(ReportScreenShot);
-            //file.Append(DateTime.Now.ToString("_dd-mm-yyyy_mss"));
-            //file.Append(".png");
-            //Screenshot saving location
+            //save screeshot
             screenshot.SaveAsFile(ReportScreenShot, ScreenshotImageFormat.Png);
-           // return file.ToString();
-           return ReportPath;
+            return ReportPath;
         }
 
               #endregion

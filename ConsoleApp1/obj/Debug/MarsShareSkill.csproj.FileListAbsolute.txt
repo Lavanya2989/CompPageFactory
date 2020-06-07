@@ -47,3 +47,5 @@ D:\Shareskillmars\ConsoleApp1\obj\Debug\MarsShareSkill.csproj.CoreCompileInputs.
 D:\Shareskillmars\ConsoleApp1\obj\Debug\MarsShareSkill.csproj.CopyComplete
 D:\Shareskillmars\ConsoleApp1\obj\Debug\ConsoleApp1.exe
 D:\Shareskillmars\ConsoleApp1\obj\Debug\ConsoleApp1.pdb
+D:\Shareskillmars\ConsoleApp1\obj\Debug\Interop.AutoItX3Lib.dll
+D:\Shareskillmars\ConsoleApp1\obj\Debug\MarsShareSkill.csproj.ResolveComReference.cache
