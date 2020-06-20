@@ -38,14 +38,13 @@ namespace ConsoleApp1.Global
            [OneTimeSetUp]
 
              public void Setup()
-            {
+        {
 
             #region Initialise Reports
            
                     extent = new ExtentReports();
                     ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(ReportPath);
-                    //htmlReporter.setAppendExisting(true);  
-
+                  
                     extent.AttachReporter(htmlReporter);
                     // report design
                     htmlReporter.LoadConfig(ReportXMLPath);
@@ -57,11 +56,23 @@ namespace ConsoleApp1.Global
                 
                 #endregion
             }
-        
+      //  public static ExtentReports getExtent()
+       // {
+           // if (extent != null)
+           // {
+             //   return extent;
+           // }
+           // else
+            //{
+              //  return new ExtentReports();
+           // }
+        //}
+
         #region setup and tear down
         [SetUp]
         public void Inititalize()
         {
+            
             test = extent.CreateTest(TestContext.CurrentContext.Test.Name);
             GlobalDefinitions.driver = new ChromeDriver();
 

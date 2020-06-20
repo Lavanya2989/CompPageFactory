@@ -122,7 +122,7 @@
     <comment>Chrome</comment>
   </data>
   <data name="ExcelPath" xml:space="preserve">
-    <value>D:\Shareskillmars\ConsoleApp1\Excel data\ShareSkillData 1.xlsx</value>
+    <value>D:\Shareskillmars\ConsoleApp1\Excel data\TestDataMars.xlsx</value>
   </data>
   <data name="IsLogin" xml:space="preserve">
     <value>true</value>

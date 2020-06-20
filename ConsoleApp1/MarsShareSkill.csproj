@@ -113,11 +113,16 @@
   <ItemGroup>
     <Compile Include="Global\Base.cs" />
     <Compile Include="Global\GlobalDefinitions.cs" />
+    <Compile Include="Pages\Certificate.cs" />
+    <Compile Include="Pages\Education.cs" />
+    <Compile Include="Pages\Language.cs" />
     <Compile Include="Pages\ManageListing.cs" />
     <Compile Include="Pages\ProfilePage.cs" />
+    <Compile Include="Pages\SearchSkill.cs" />
     <Compile Include="Pages\ShareSkill.cs" />
     <Compile Include="Pages\SignIn.cs" />
     <Compile Include="Pages\SignUp.cs" />
+    <Compile Include="Pages\Skill.cs" />
     <Compile Include="Test\Program.cs" />
     <Compile Include="Test\TestSuite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -129,7 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Excel data\ShareSkillData 1.xlsx" />
+    <None Include="Excel data\TestDataMars.xlsx" />
     <None Include="license" />
     <None Include="packages.config" />
   </ItemGroup>

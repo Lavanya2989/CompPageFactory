@@ -21,6 +21,9 @@ namespace ConsoleApp1.Pages
         {
             PageFactory.InitElements(Global.GlobalDefinitions.driver, this);
         }
+        //Click on ShareSkill Button
+        [FindsBy(How = How.XPath, Using = "//a[contains(.,'Share Skill')]")]
+        private IWebElement ShareSkillButton { get; set; }
 
         //Enter the Title in textbox
         [FindsBy(How = How.XPath, Using = "//input[@name='title']")]
@@ -43,12 +46,20 @@ namespace ConsoleApp1.Pages
         private IWebElement Tags { get; set; }
 
         //Select the Service type
+        [FindsBy(How = How.XPath, Using = "(//input[@value='0'])[1]")]
+        private IWebElement Hourly { get; set; }
+
+        //Select the Service type
         [FindsBy(How = How.XPath, Using = "(//input[@name='serviceType'])[2]")]
-        private IWebElement ServiceTypeOptions { get; set; }
+        private IWebElement Oneoff { get; set; }
 
         //Select the Location Type
-        [FindsBy(How = How.XPath, Using = "(//input[@name='locationType'])[1]")]
-        private IWebElement LocationTypeOption { get; set; }
+        [FindsBy(How = How.XPath, Using = "(//input[@value='0'])[2]")]
+        private IWebElement Onsite { get; set; }
+
+        //Select the Location Type
+        [FindsBy(How = How.XPath, Using = "(//input[@value='1'])[2]")]
+        private IWebElement Online { get; set; }
 
         //Click on Start Date dropdown
         [FindsBy(How = How.XPath, Using = "//input[@name='startDate']")]
@@ -78,17 +89,33 @@ namespace ConsoleApp1.Pages
         [FindsBy(How = How.XPath, Using = "(//input[@placeholder='Add new tag'])[2]")]
         private IWebElement SkillExchange { get; set; }
 
+        //Enter Skill Trade
+        [FindsBy(How = How.XPath, Using = "(//input[@value='false'])[1]")]
+        private IWebElement Credit { get; set; }
+
+        //Enter Creditvalue
+        [FindsBy(How = How.XPath, Using = "//input[@name='charge']")]
+        private IWebElement Creditvalue { get; set; }
+
         //Click on worksample
         [FindsBy(How = How.XPath, Using = "//i[@class='huge plus circle icon padding-25']")]
         private IWebElement Worksample { get; set; }
 
+        //Click on Active
+        [FindsBy(How = How.XPath, Using = "(//input[@value='true'])[2]")]
+        private IWebElement StatusActive { get; set; }
+
         //Click on Active/Hidden option
         [FindsBy(How = How.XPath, Using = "//input[@name='isActive' and @value='false']")]
-        private IWebElement ActiveOption { get; set; }
+        private IWebElement StatusHidden { get; set; }
 
         //Click on Save button
         [FindsBy(How = How.XPath, Using = "//input[@value='Save']")]
         private IWebElement Save { get; set; }
+
+        //Click on Save button
+        [FindsBy(How = How.XPath, Using = "//input[@value='Cancel']")]
+        private IWebElement Cancel { get; set; }
 
         //Manage listing title value
         [FindsBy(How = How.XPath, Using = "(//tr[1]//td[@class='four wide'])[1]")]
@@ -112,6 +139,11 @@ namespace ConsoleApp1.Pages
 
         internal void EnterShareSkill()
         {
+            //Explicit wait
+            GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, By.XPath("//a[contains(.,'Share Skill')]"));
+
+            //click shareskill
+            ShareSkillButton.Click();
 
             // Populate the excel data
             GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "ShareSkill");
@@ -137,10 +169,24 @@ namespace ConsoleApp1.Pages
             Tags.SendKeys(Keys.Return);
 
             //Select the Service type
-            ServiceTypeOptions.Click();
+            if (GlobalDefinitions.ExcelLib.ReadData(2, "ServiceType") == "Hourly basis")
+            {
+                Hourly.Click();
+            }
+            else if (GlobalDefinitions.ExcelLib.ReadData(2, "ServiceType") == "One-off")
+            {
+                Oneoff.Click();
+            }
 
             //Select the Location type
-            LocationTypeOption.Click();
+            if (GlobalDefinitions.ExcelLib.ReadData(2, "LocationType") == "On-site")
+            {
+                Onsite.Click();
+            }
+            else if (GlobalDefinitions.ExcelLib.ReadData(2, "LocationType") == "Online")
+            {
+                Online.Click();
+            }
 
             //Click on Start Date dropdown
             StartDateDropDown.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Startdate"));
@@ -156,14 +202,24 @@ namespace ConsoleApp1.Pages
 
             //select endtime
             EndTimeDropDown.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Endtime"));
+                     
+            if (GlobalDefinitions.ExcelLib.ReadData(2, "SkillTrade") == "Skill-Exchange")
+            {
 
-            //select SkillTradeOption
-            SkillTradeOption.Click();
+                //select SkillTradeOption
+                SkillTradeOption.Click();
+                //Enter SkillExchange
+                SkillExchange.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Skill-Exchange"));
+                SkillExchange.SendKeys(Keys.Return);
 
-            //Enter SkillExchange
-            SkillExchange.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Skill-Exchange"));
-            SkillExchange.SendKeys(Keys.Return);
+            }
+            else if (GlobalDefinitions.ExcelLib.ReadData(2, "SkillTrade") == "Credit")
+            {
 
+                Credit.Click();
+                Creditvalue.SendKeys(Global.GlobalDefinitions.ExcelLib.ReadData(2, "Credit"));
+                Creditvalue.SendKeys(Keys.Enter);
+            }
             //Click worksample
             Worksample.Click();
             //Worksample.SendKeys("path");
@@ -175,12 +231,27 @@ namespace ConsoleApp1.Pages
            //autoit.Send(@"D:\Shareskillmars\FileUploadScript.exe");
             autoit.Send(@"D:\Shareskillmars\sample.txt");
             autoit.Send("{ENTER}");
-             
-            //Click on Active/Hidden option
-            ActiveOption.Click();
             Thread.Sleep(10000);
-            //click save
-            Save.Click();
+
+            //Select user option
+            if (GlobalDefinitions.ExcelLib.ReadData(2, "UserStatus") == "Active")
+            {
+                StatusActive.Click();
+            }
+            else if (GlobalDefinitions.ExcelLib.ReadData(2, "UserStatus") == "Hidden")
+            {
+                StatusHidden.Click();
+            }
+            
+             //click save or cancel
+            if (Global.GlobalDefinitions.ExcelLib.ReadData(2, "SaveOrCancel") == "Save")
+            {
+                Save.Click();
+            }
+            else if (Global.GlobalDefinitions.ExcelLib.ReadData(2, "SaveOrCancel") == "Cancel")
+            {
+                Cancel.Click();
+            }
         }
 
             internal void validate()
@@ -203,6 +274,13 @@ namespace ConsoleApp1.Pages
                 Assert.IsTrue(img);
                 
             }
+        internal void AssertShareSkillPage()
+        {
+            //Validate I'm at shareskill page
+            String URL = GlobalDefinitions.driver.Url;
+            Assert.AreEqual(URL, "http://192.168.99.100:5000/Home/ServiceListing");
+
         }
+    }
     }
 

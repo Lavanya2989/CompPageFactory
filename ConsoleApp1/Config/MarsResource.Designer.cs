@@ -70,7 +70,7 @@ namespace ConsoleApp1.Config {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\Shareskillmars\ConsoleApp1\Excel data\ShareSkillData 1.xlsx.
+        ///   Looks up a localized string similar to D:\Shareskillmars\ConsoleApp1\Excel data\TestDataMars.xlsx.
         /// </summary>
         internal static string ExcelPath {
             get {

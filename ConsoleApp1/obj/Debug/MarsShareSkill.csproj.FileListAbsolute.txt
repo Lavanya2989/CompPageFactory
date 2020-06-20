@@ -40,12 +40,12 @@ D:\Shareskillmars\ConsoleApp1\bin\Debug\RazorEngine.xml
 D:\Shareskillmars\ConsoleApp1\bin\Debug\System.Web.Razor.xml
 D:\Shareskillmars\ConsoleApp1\bin\Debug\WebDriver.xml
 D:\Shareskillmars\ConsoleApp1\bin\Debug\WebDriver.Support.xml
-D:\Shareskillmars\ConsoleApp1\obj\Debug\MarsShareSkill.csprojAssemblyReference.cache
+D:\Shareskillmars\ConsoleApp1\obj\Debug\Interop.AutoItX3Lib.dll
+D:\Shareskillmars\ConsoleApp1\obj\Debug\MarsShareSkill.csproj.ResolveComReference.cache
 D:\Shareskillmars\ConsoleApp1\obj\Debug\ConsoleApp1.Config.MarsResource.resources
 D:\Shareskillmars\ConsoleApp1\obj\Debug\MarsShareSkill.csproj.GenerateResource.cache
 D:\Shareskillmars\ConsoleApp1\obj\Debug\MarsShareSkill.csproj.CoreCompileInputs.cache
 D:\Shareskillmars\ConsoleApp1\obj\Debug\MarsShareSkill.csproj.CopyComplete
 D:\Shareskillmars\ConsoleApp1\obj\Debug\ConsoleApp1.exe
 D:\Shareskillmars\ConsoleApp1\obj\Debug\ConsoleApp1.pdb
-D:\Shareskillmars\ConsoleApp1\obj\Debug\Interop.AutoItX3Lib.dll
-D:\Shareskillmars\ConsoleApp1\obj\Debug\MarsShareSkill.csproj.ResolveComReference.cache
+D:\Shareskillmars\ConsoleApp1\obj\Debug\MarsShareSkill.csprojAssemblyReference.cache

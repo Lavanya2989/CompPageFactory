@@ -20,6 +20,10 @@ namespace ConsoleApp1.Pages
             PageFactory.InitElements(Global.GlobalDefinitions.driver, this);
         }
 
+        //Click on Manage Listings Link
+        [FindsBy(How = How.XPath, Using = "//section//a[contains(.,'Manage Listings')]")]
+        private IWebElement manageListingsLink { get; set; }
+
         //Delete the listing
         [FindsBy(How = How.XPath, Using = "(//i[@class='remove icon'])[1]")]
         private IWebElement delete { get; set; }
@@ -57,12 +61,20 @@ namespace ConsoleApp1.Pages
         private IWebElement Tags { get; set; }
 
         //Select the Service type
+        [FindsBy(How = How.XPath, Using = "(//input[@value='0'])[1]")]
+        private IWebElement Hourly { get; set; }
+
+        //Select the Service type
         [FindsBy(How = How.XPath, Using = "(//input[@name='serviceType'])[2]")]
-        private IWebElement ServiceTypeOptions { get; set; }
+        private IWebElement Oneoff { get; set; }
 
         //Select the Location Type
-        [FindsBy(How = How.XPath, Using = "(//input[@name='locationType'])[1]")]
-        private IWebElement LocationTypeOption { get; set; }
+        [FindsBy(How = How.XPath, Using = "(//input[@value='0'])[2]")]
+        private IWebElement Onsite { get; set; }
+
+        //Select the Location Type
+        [FindsBy(How = How.XPath, Using = "(//input[@value='1'])[2]")]
+        private IWebElement Online { get; set; }
 
         //Click on Start Date dropdown
         [FindsBy(How = How.XPath, Using = "//input[@name='startDate']")]
@@ -89,10 +101,14 @@ namespace ConsoleApp1.Pages
         private IWebElement SkillTradeOption { get; set; }
 
         //Enter Skill Exchange
+        [FindsBy(How = How.XPath, Using = "(//input[@placeholder='Add new tag'])[2]")]
+        private IWebElement SkillExchange { get; set; }
+
+        //Enter Skill Trade
         [FindsBy(How = How.XPath, Using = "(//input[@value='false'])[1]")]
         private IWebElement Credit { get; set; }
 
-        //Enter Skill Exchange
+        //Enter Creditvalue
         [FindsBy(How = How.XPath, Using = "//input[@name='charge']")]
         private IWebElement Creditvalue { get; set; }
 
@@ -100,13 +116,21 @@ namespace ConsoleApp1.Pages
         [FindsBy(How = How.XPath, Using = "//i[@class='huge plus circle icon padding-25']")]
         private IWebElement Worksample { get; set; }
 
+        //Click on Active
+        [FindsBy(How = How.XPath, Using = "(//input[@value='true'])[2]")]
+        private IWebElement StatusActive { get; set; }
+
         //Click on Active/Hidden option
         [FindsBy(How = How.XPath, Using = "//input[@name='isActive' and @value='false']")]
-        private IWebElement ActiveOption { get; set; }
+        private IWebElement StatusHidden { get; set; }
 
         //Click on Save button
         [FindsBy(How = How.XPath, Using = "//input[@value='Save']")]
         private IWebElement Save { get; set; }
+
+        //Click on Cancel button
+        [FindsBy(How = How.XPath, Using = "//input[@value='Cancel']")]
+        private IWebElement Cancel { get; set; }
 
         //Manage listing title value
         [FindsBy(How = How.XPath, Using = "(//tr[1]//td[@class='four wide'])[1]")]
@@ -131,8 +155,14 @@ namespace ConsoleApp1.Pages
 
         internal void Listings()
         {
-           // Explicit wait
-           GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, By.XPath("(//i[@class='remove icon'])[1]"));
+            //Explicit wait to find element
+            GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, By.XPath("//section//a[contains(.,'Manage Listings')]"));
+
+            //click managelisting
+            manageListingsLink.Click();
+
+            // Explicit wait
+            GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, By.XPath("(//i[@class='remove icon'])[1]"));
             //click delete icon
             delete.Click();
 
@@ -162,58 +192,89 @@ namespace ConsoleApp1.Pages
         }
         internal void ShareskillEdit()
         {
+            //Explicit wait to find element
+            GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, By.XPath("//section//a[contains(.,'Manage Listings')]"));
+
+            //click managelisting
+            manageListingsLink.Click();
+
             GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, By.XPath("(//i[@class='outline write icon'])[1]"));
             Editbutton.Click();
             // Populate the excel data
             GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "ShareSkill");
 
-            GlobalDefinitions.wait(10);
             //Enter title
-            Title.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Title"));
+            Title.SendKeys(GlobalDefinitions.ExcelLib.ReadData(3, "Title"));
 
             //Enter Description
-            Description.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Description"));
+            Description.SendKeys(GlobalDefinitions.ExcelLib.ReadData(3, "Description"));
 
             // Select on Category Dropdown
             GlobalDefinitions.wait(10);
             SelectElement catg = new SelectElement(CategoryDropDown);
-            catg.SelectByText(GlobalDefinitions.ExcelLib.ReadData(2, "Category"));
+            catg.SelectByText(GlobalDefinitions.ExcelLib.ReadData(3, "Category"));
 
             //Select on SubCategory Dropdown
             GlobalDefinitions.wait(10);
             SelectElement subcatg = new SelectElement(SubCategoryDropDown);
-            subcatg.SelectByText(GlobalDefinitions.ExcelLib.ReadData(2, "SubCategory"));
+            subcatg.SelectByText(GlobalDefinitions.ExcelLib.ReadData(3, "SubCategory"));
 
             //Enter Tag names in textbox
-            Tags.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Tags"));
+            Tags.SendKeys(GlobalDefinitions.ExcelLib.ReadData(3, "Tags"));
             Tags.SendKeys(Keys.Return);
 
             //Select the Service type
-            ServiceTypeOptions.Click();
+            if (GlobalDefinitions.ExcelLib.ReadData(3, "ServiceType") == "Hourly basis service")
+            {
+                Hourly.Click();
+            }
+            else if (GlobalDefinitions.ExcelLib.ReadData(3, "ServiceType") == "One-off service")
+            {
+                Oneoff.Click();
+            }
 
             //Select the Location type
-            LocationTypeOption.Click();
+            if (GlobalDefinitions.ExcelLib.ReadData(3, "LocationType") == "On-site")
+            {
+                Onsite.Click();
+            }
+            else if (GlobalDefinitions.ExcelLib.ReadData(3, "LocationType") == "Online")
+            {
+                Online.Click();
+            }
 
             //Click on Start Date dropdown
-            StartDateDropDown.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Startdate"));
+            StartDateDropDown.SendKeys(GlobalDefinitions.ExcelLib.ReadData(3, "Startdate"));
 
             //Click on End Date dropdown
-            EndDateDropDown.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Enddate"));
+            EndDateDropDown.SendKeys(GlobalDefinitions.ExcelLib.ReadData(3, "Enddate"));
 
             //Select available days
             Days.Click();
 
             //Select startTime
-            StartTime.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Starttime"));
+            StartTime.SendKeys(GlobalDefinitions.ExcelLib.ReadData(3, "Starttime"));
 
             //select endtime
-            EndTimeDropDown.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Endtime"));
+            EndTimeDropDown.SendKeys(GlobalDefinitions.ExcelLib.ReadData(3, "Endtime"));
 
-            //select SkillTradeOption
-            Credit.Click();
+            if (GlobalDefinitions.ExcelLib.ReadData(3, "SkillTrade") == "Skill-Exchange")
+            {
 
-            Creditvalue.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Credit"));
+                //select SkillTradeOption
+                SkillTradeOption.Click();
+                //Enter SkillExchange
+                SkillExchange.SendKeys(GlobalDefinitions.ExcelLib.ReadData(3, "Skill-Exchange"));
+                SkillExchange.SendKeys(Keys.Return);
 
+            }
+            else if (GlobalDefinitions.ExcelLib.ReadData(3, "SkillTrade") == "Credit")
+            {
+
+                Credit.Click();
+                Creditvalue.SendKeys(Global.GlobalDefinitions.ExcelLib.ReadData(2, "Credit"));
+                Creditvalue.SendKeys(Keys.Enter);
+            }
             //Click worksample
             Worksample.Click();
             //Worksample.SendKeys("path");
@@ -226,26 +287,42 @@ namespace ConsoleApp1.Pages
             autoit.Send(@"D:\Shareskillmars\sample.txt");
             autoit.Send("{ENTER}");
 
-            //Click on Active/Hidden option
-            ActiveOption.Click();
-            Thread.Sleep(10000);
-            //click save
-            Save.Click();
+            Thread.Sleep(20000);
+            //Select user option
+            if (GlobalDefinitions.ExcelLib.ReadData(3, "UserStatus") == "Active")
+            {
+                StatusActive.Click();
+            }
+            else if (GlobalDefinitions.ExcelLib.ReadData(3, "UserStatus") == "Hidden")
+            {
+                StatusHidden.Click();
+            }
+
+           //click save or cancel
+            if (Global.GlobalDefinitions.ExcelLib.ReadData(3, "SaveOrCancel") == "Save")
+            {
+                Save.Click();
+            }
+            else if (Global.GlobalDefinitions.ExcelLib.ReadData(3, "SaveOrCancel") == "Cancel")
+            {
+                Cancel.Click();
+            }
         }
+
         internal void validate()
         {
             GlobalDefinitions.wait(40);
             //Validate the service details saved by title
-            Assert.AreEqual(MTitle.Text, GlobalDefinitions.ExcelLib.ReadData(2, "Title"));
+            Assert.AreEqual(MTitle.Text, GlobalDefinitions.ExcelLib.ReadData(3, "Title"));
 
             //validate Category
-            Assert.AreEqual(MCategory.Text, GlobalDefinitions.ExcelLib.ReadData(2, "Category"));
+            Assert.AreEqual(MCategory.Text, GlobalDefinitions.ExcelLib.ReadData(3, "Category"));
 
             //validate Description
-            Assert.AreEqual(MDescription.Text, GlobalDefinitions.ExcelLib.ReadData(2, "Description"));
+            Assert.AreEqual(MDescription.Text, GlobalDefinitions.ExcelLib.ReadData(3, "Description"));
 
             //validate Servicetype
-            Assert.AreEqual(MServiceType.Text, GlobalDefinitions.ExcelLib.ReadData(2, "ServiceType"));
+            Assert.AreEqual(MServiceType.Text, GlobalDefinitions.ExcelLib.ReadData(3, "ServiceType"));
 
             //validate image of blue icon in skill trade
             var img = greyicon.Displayed;
